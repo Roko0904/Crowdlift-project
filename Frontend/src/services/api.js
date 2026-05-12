@@ -1,5 +1,6 @@
  
-const BASE_URL = "http://localhost:5000/api";
+const API_DOMAIN = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = `${API_DOMAIN}/api`;
 
  
 const getToken = () => localStorage.getItem("crowdlift_token") || localStorage.getItem("token");
@@ -8,7 +9,7 @@ const getToken = () => localStorage.getItem("crowdlift_token") || localStorage.g
 const getHeaders = (isFormData = false) => {
   const headers = {};
 
-  // FormData ke liye Content-Type set mat karo (browser khud set karda)
+ 
   if (!isFormData) {
     headers["Content-Type"] = "application/json";
   }
@@ -75,8 +76,7 @@ export const authAPI = {
 
  
 export const campaignAPI = {
-
-  // Saari campaigns lao (filters + search + pagination)
+ 
   getAll: async (params = {}) => {
     const query = new URLSearchParams(params).toString();
     const res = await fetch(`${BASE_URL}/campaigns?${query}`, {
